@@ -162,9 +162,10 @@ const AuditLogsSettings = () => {
   // Reverse map display module name -> resource_type for filtering
    const moduleDisplayToFilter: Record<string, ModuleFilter> = {
     'Contacts': 'contacts', 'Deals': 'deals', 'Leads': 'leads',
-    'Tasks': 'tasks', 'Accounts': 'accounts',
-    'Deal Stakeholders': 'deal_stakeholders', 'Page Access': 'page_permissions',
-    'Email Templates': 'email_templates', 'Notifications': 'notification_preferences',
+    'Tasks': 'tasks', 'Accounts': 'accounts', 'Campaigns': 'campaigns',
+    'Action Items': 'action_items', 'Deal Stakeholders': 'deal_stakeholders',
+    'Page Access': 'page_permissions', 'Email Templates': 'email_templates',
+    'Notifications': 'notification_preferences',
   };
 
   // Determine active stats filter badge
