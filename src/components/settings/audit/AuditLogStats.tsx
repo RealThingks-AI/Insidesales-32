@@ -28,7 +28,7 @@ export const AuditLogStats = ({
 }: AuditLogStatsProps) => {
   const topModules = Object.entries(byModule)
     .sort((a, b) => b[1] - a[1])
-    .slice(0, 6);
+    .slice(0, 8);
 
   const presets = getDatePresets();
   // Exclude "Today" from presets since we already have a Today stat badge
