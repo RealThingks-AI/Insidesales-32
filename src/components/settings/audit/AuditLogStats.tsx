@@ -21,9 +21,10 @@ interface AuditLogStatsProps {
 }
 
 export const AuditLogStats = ({
-  total, todayCount, weekCount, byModule,
+  todayCount,
+  byModule,
   activeFilter = 'all',
-  onFilterAll, onFilterToday, onFilterThisWeek, onFilterModule,
+  onFilterAll, onFilterToday, onFilterModule,
   onDatePreset, activeDatePreset,
 }: AuditLogStatsProps) => {
   const topModules = Object.entries(byModule)
@@ -31,7 +32,7 @@ export const AuditLogStats = ({
     .slice(0, 8);
 
   const presets = getDatePresets();
-  // Exclude "Today" from presets since we already have a Today stat badge
+  // Exclude "Today" since we have a dedicated Today badge with count
   const extraPresets = presets.filter(p => p.label !== 'Today');
 
   const base = "gap-1.5 text-xs font-medium py-1 cursor-pointer transition-all ring-offset-background select-none";
@@ -40,26 +41,28 @@ export const AuditLogStats = ({
 
   return (
     <div className="flex flex-wrap items-center gap-2 px-1">
-      <Badge
-        variant="secondary"
-        className={cn(base, activeFilter === 'all' && !activeDatePreset && activeRing)}
-        onClick={onFilterAll}
-      >
-        Total <span className="font-bold">{total}</span>
-      </Badge>
+      {/* Date chips first */}
       <Badge
         className={cn(base, "bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400 border-0", activeFilter === 'today' && activeRing)}
         onClick={onFilterToday}
       >
         Today <span className="font-bold">{todayCount}</span>
       </Badge>
-      <Badge
-        className={cn(base, "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400 border-0", activeFilter === 'week' && activeRing)}
-        onClick={onFilterThisWeek}
-      >
-        This Week <span className="font-bold">{weekCount}</span>
-      </Badge>
+      {extraPresets.map(preset => (
+        <Badge
+          key={preset.label}
+          variant="outline"
+          className={cn(base, "font-normal", activeDatePreset === preset.label && activeRing)}
+          onClick={() => onDatePreset?.(preset.from, preset.to, preset.label)}
+        >
+          {preset.label}
+        </Badge>
+      ))}
+
+      {/* Separator */}
       <span className="text-muted-foreground text-xs">|</span>
+
+      {/* Module chips */}
       {topModules.map(([mod, count]) => (
         <Badge
           key={mod}
@@ -70,21 +73,8 @@ export const AuditLogStats = ({
           {mod} <span className="font-bold">{count}</span>
         </Badge>
       ))}
-      {extraPresets.length > 0 && (
-        <>
-          <span className="text-muted-foreground text-xs">|</span>
-          {extraPresets.map(preset => (
-            <Badge
-              key={preset.label}
-              variant="outline"
-              className={cn(base, "font-normal", activeDatePreset === preset.label && activeRing)}
-              onClick={() => onDatePreset?.(preset.from, preset.to, preset.label)}
-            >
-              {preset.label}
-            </Badge>
-          ))}
-        </>
-      )}
+
+      {/* Clear filter */}
       {isFiltered && (
         <>
           <span className="text-muted-foreground text-xs">|</span>

@@ -252,7 +252,6 @@ export const getDatePresets = () => [
   { label: 'Today', from: new Date(new Date().setHours(0, 0, 0, 0)), to: new Date() },
   { label: 'Last 7 days', from: subDays(new Date(), 7), to: new Date() },
   { label: 'Last 30 days', from: subDays(new Date(), 30), to: new Date() },
-  { label: 'This month', from: startOfMonth(new Date()), to: new Date() },
 ];
 
 export const getStatsFromLogs = (logs: AuditLog[]) => {
