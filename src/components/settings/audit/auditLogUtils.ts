@@ -89,8 +89,7 @@ export const getRecordName = (log: AuditLog): string => {
 export const getModuleName = (log: AuditLog): string => {
   if (log.details?.module) {
     const m = String(log.details.module).toLowerCase();
-    if (m === 'action items' || m === 'action_items') return 'Action Items';
-    if (m === 'tasks') return 'Tasks';
+    if (m === 'action items' || m === 'action_items' || m === 'tasks') return 'Action Items';
     return m.charAt(0).toUpperCase() + m.slice(1).replace(/_/g, ' ');
   }
   return getReadableResourceType(log.resource_type);
@@ -99,7 +98,8 @@ export const getModuleName = (log: AuditLog): string => {
 export const getReadableResourceType = (resourceType: string): string => {
   const map: Record<string, string> = {
     contacts: 'Contacts', leads: 'Leads', deals: 'Deals',
-    action_items: 'Action Items', tasks: 'Tasks',
+    action_items: 'Action Items', tasks: 'Action Items',
+    deal_action_items: 'Action Items', lead_action_items: 'Action Items',
     accounts: 'Accounts', campaigns: 'Campaigns',
     auth: 'Authentication',
     user_roles: 'User Roles', profiles: 'Profiles',
@@ -252,7 +252,6 @@ export const getDatePresets = () => [
   { label: 'Today', from: new Date(new Date().setHours(0, 0, 0, 0)), to: new Date() },
   { label: 'Last 7 days', from: subDays(new Date(), 7), to: new Date() },
   { label: 'Last 30 days', from: subDays(new Date(), 30), to: new Date() },
-  { label: 'This month', from: startOfMonth(new Date()), to: new Date() },
 ];
 
 export const getStatsFromLogs = (logs: AuditLog[]) => {

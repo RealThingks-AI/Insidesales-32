@@ -116,12 +116,15 @@ const AuditLogsSettings = () => {
     let result = filterByCategory(logs, category);
 
     // Module filter
-     if (moduleFilter !== 'all') {
+    if (moduleFilter !== 'all') {
       result = result.filter(log => {
-        const rt = log.resource_type === 'tasks' ? 'tasks' : log.resource_type;
+        const rt = log.resource_type;
         const dm = log.details?.module?.toLowerCase();
-        return rt === moduleFilter || dm === moduleFilter ||
-          (moduleFilter === 'tasks' && (rt === 'action_items' || dm === 'action items' || dm === 'action_items'));
+        if (moduleFilter === 'action_items') {
+          return ['tasks', 'action_items', 'deal_action_items', 'lead_action_items'].includes(rt) ||
+            dm === 'action items' || dm === 'action_items' || dm === 'tasks';
+        }
+        return rt === moduleFilter || dm === moduleFilter;
       });
     }
 
@@ -162,7 +165,7 @@ const AuditLogsSettings = () => {
   // Reverse map display module name -> resource_type for filtering
    const moduleDisplayToFilter: Record<string, ModuleFilter> = {
     'Contacts': 'contacts', 'Deals': 'deals', 'Leads': 'leads',
-    'Tasks': 'tasks', 'Accounts': 'accounts', 'Campaigns': 'campaigns',
+    'Accounts': 'accounts', 'Campaigns': 'campaigns',
     'Action Items': 'action_items', 'Deal Stakeholders': 'deal_stakeholders',
     'Page Access': 'page_permissions', 'Email Templates': 'email_templates',
     'Notifications': 'notification_preferences',
