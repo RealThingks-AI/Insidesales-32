@@ -172,7 +172,7 @@ const AuditLogsSettings = () => {
   const activeStatsFilter = useMemo(() => {
     if (moduleFilter !== 'all') {
       const entry = Object.entries(moduleDisplayToFilter).find(([, v]) => v === moduleFilter);
-      return entry ? entry[0].toLowerCase() : moduleFilter;
+      return entry ? entry[0].toLowerCase().replace(/ /g, '_') : moduleFilter;
     }
     if (activeDatePreset) return '';
     if (dateFrom && dateTo) {
