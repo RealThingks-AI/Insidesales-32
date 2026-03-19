@@ -116,12 +116,15 @@ const AuditLogsSettings = () => {
     let result = filterByCategory(logs, category);
 
     // Module filter
-     if (moduleFilter !== 'all') {
+    if (moduleFilter !== 'all') {
       result = result.filter(log => {
-        const rt = log.resource_type === 'tasks' ? 'tasks' : log.resource_type;
+        const rt = log.resource_type;
         const dm = log.details?.module?.toLowerCase();
-        return rt === moduleFilter || dm === moduleFilter ||
-          (moduleFilter === 'tasks' && (rt === 'action_items' || dm === 'action items' || dm === 'action_items'));
+        if (moduleFilter === 'action_items') {
+          return ['tasks', 'action_items', 'deal_action_items', 'lead_action_items'].includes(rt) ||
+            dm === 'action items' || dm === 'action_items' || dm === 'tasks';
+        }
+        return rt === moduleFilter || dm === moduleFilter;
       });
     }
 
