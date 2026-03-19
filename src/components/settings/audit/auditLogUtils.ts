@@ -89,8 +89,8 @@ export const getRecordName = (log: AuditLog): string => {
 export const getModuleName = (log: AuditLog): string => {
   if (log.details?.module) {
     const m = String(log.details.module).toLowerCase();
-    // Normalize action items variants to Tasks
-    if (m === 'action items' || m === 'action_items' || m === 'tasks') return 'Tasks';
+    if (m === 'action items' || m === 'action_items') return 'Action Items';
+    if (m === 'tasks') return 'Tasks';
     return m.charAt(0).toUpperCase() + m.slice(1).replace(/_/g, ' ');
   }
   return getReadableResourceType(log.resource_type);
@@ -99,11 +99,12 @@ export const getModuleName = (log: AuditLog): string => {
 export const getReadableResourceType = (resourceType: string): string => {
   const map: Record<string, string> = {
     contacts: 'Contacts', leads: 'Leads', deals: 'Deals',
-    action_items: 'Tasks', tasks: 'Tasks',
+    action_items: 'Action Items', tasks: 'Tasks',
+    accounts: 'Accounts', campaigns: 'Campaigns',
     auth: 'Authentication',
     user_roles: 'User Roles', profiles: 'Profiles',
     user_management: 'User Management',
-    deal_stakeholders: 'Deals',
+    deal_stakeholders: 'Deal Stakeholders',
     page_permissions: 'Page Access',
     email_templates: 'Email Templates',
     notification_preferences: 'Notifications',

@@ -2,7 +2,13 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Eye, Mail } from 'lucide-react';
-import DOMPurify from 'dompurify';
+// Simple HTML sanitizer fallback
+const sanitizeHtml = (html: string) => {
+  const div = document.createElement('div');
+  div.innerHTML = html;
+  div.querySelectorAll('script,iframe,object,embed,form').forEach(el => el.remove());
+  return div.innerHTML;
+};
 
 interface TemplatePreviewModalProps {
   open: boolean;

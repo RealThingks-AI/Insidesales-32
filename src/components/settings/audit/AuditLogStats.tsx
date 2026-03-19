@@ -64,7 +64,7 @@ export const AuditLogStats = ({
         <Badge
           key={mod}
           variant="outline"
-          className={cn(base, "font-normal", activeFilter === mod.toLowerCase() && activeRing)}
+          className={cn(base, "font-normal", activeFilter === mod.toLowerCase().replace(/ /g, '_') && activeRing)}
           onClick={() => onFilterModule?.(mod)}
         >
           {mod} <span className="font-bold">{count}</span>
