@@ -43,7 +43,7 @@ const TemplatePreviewModal = ({ open, onOpenChange, template }: TemplatePreviewM
   if (!template) return null;
 
   const renderedSubject = renderWithVariables(template.subject);
-  const renderedBody = DOMPurify.sanitize(renderWithVariables(template.body));
+  const renderedBody = sanitizeHtml(renderWithVariables(template.body));
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
